@@ -503,19 +503,11 @@ def batch_plan(payload: dict[str, Any], root: Path) -> dict[str, Any]:
 
 def run(arguments: dict[str, Any], root: Path | None = None) -> dict[str, Any]:
     root = root or Path(__file__).resolve().parent.parent
-    mode = scalar(arguments.get("mode") or "batch_plan")
-    if mode == "route":
-        return route_rows(arguments, root)
-    if mode == "review":
-        return review_cr(arguments, root)
-    if mode == "batch_plan":
-        return batch_plan(arguments, root)
-    raise ValueError(f"Unsupported mode: {mode}")
+    return batch_plan(arguments, root)
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Run core CR triage logic.")
-    parser.add_argument("mode", choices=["batch_plan", "route", "review"])
+    parser = argparse.ArgumentParser(description="Run the core CR triage batch plan.")
     parser.add_argument("--input", help="Optional JSON object containing script arguments, or '-' for stdin.")
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parent.parent)
     args = parser.parse_args()
@@ -524,7 +516,6 @@ def main() -> int:
         payload = json.loads(payload_text)
     else:
         payload = {}
-    payload["mode"] = args.mode
     print(json.dumps(run(payload, args.root), indent=2, sort_keys=True))
     return 0
 

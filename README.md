@@ -36,30 +36,19 @@ Run the orchestration logic directly with `scripts/core_crtriage_tool.py`.
 Run from this directory:
 
 ```bash
-python3 scripts/core_crtriage_tool.py batch_plan
-python3 scripts/core_crtriage_tool.py batch_plan --input payload.json
-python3 scripts/core_crtriage_tool.py route --input payload.json
-python3 scripts/core_crtriage_tool.py review --input payload.json
+python3 scripts/core_crtriage_tool.py
+python3 scripts/core_crtriage_tool.py --input payload.json
 ```
 
-When `--input` is omitted, the script uses default arguments. For `batch_plan`
-and `route`, that fetches Orbit saved query `37070` from `orbit-sd` using
-`auth/orbit_auth.txt`. Use `--input -` to read a JSON object from stdin when
-overrides are needed.
+When `--input` is omitted, the script uses default arguments. It fetches Orbit
+saved query `37070` from `orbit-sd` using `auth/orbit_auth.txt`. Use
+`--input -` to read a JSON object from stdin when overrides are needed.
 
-## Script Modes
+## Batch Plan
 
-`core_crtriage_tool` supports three modes:
-
-- `batch_plan`: fetches saved-query `37070` unless `rows` are supplied; returns
-  skipped CRs, routed open CRs, and per-CR review requests or action plans when
-  tech-team assessments are supplied. Terminal-status CRs are skipped.
-- `route`: fetches saved-query `37070` unless `rows` are supplied; returns
-  routing groups for open CRs and the tech-team skills that should be applied.
-- `review`: pass one `cr` row, optional `details`, and optional `comments`;
-  or pass `crNumber` to fetch the CR directly from Orbit. Without
-  `assessment`, returns a `team_review_request`; with `assessment`, returns the
-  Orbit Web API update plan. Terminal-status CRs are skipped.
+`core_crtriage_tool` runs one default workflow: fetch saved-query `37070`
+unless `rows` are supplied, skip terminal-status CRs, route open CRs, and return
+per-CR review requests or action plans when tech-team assessments are supplied.
 
 By default the script previews the update plan. Set `applyUpdates: true` to apply
 the tag, reassignment, and comment updates directly through Orbit Web API. This

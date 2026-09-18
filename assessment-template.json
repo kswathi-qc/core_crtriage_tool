@@ -1,0 +1,10 @@
+{
+  "decision": "debug_info_needed",
+  "missingItems": [
+    "Team-specific debug-info criteria are not defined yet."
+  ],
+  "criteriaSource": "blank team skill",
+  "rationale": [
+    "No approved team criteria are available, so the CR cannot be marked debug_info_available."
+  ]
+}
